@@ -27,15 +27,19 @@ public class Server {
                             DataInputStream in = new DataInputStream(socket.getInputStream()); // Создали новый объект ВходящийДатаПоток
                             // DataOutputStream out = new DataOutputStream(socket.getOutputStream()); // Создали новый экземпляр ИсходящийДатаПоток
                             // ! Спращиваем имя клиента
-                            // ! Приветствуем клиента на сервере
+                            DataOutputStream outQuestion = new DataOutputStream(socket.getOutputStream()); // Создали новый экземпляр ИсходящийДатаПоток
+                            outQuestion.writeUTF("Введите Ваше имя: ");
                             // ! Записываем его имя (куда?)
+                            String clientName = in.readUTF();
+                            // ! Приветствуем клиента на сервере
+                            outQuestion.writeUTF("Приветствуем Вас "+clientName);
                             while (true){
                                 String request = in.readUTF(); // Создали переменную request и ожидаем, что пришлет нам Клиент (читаем в формате UTF) и записываем в request
-                                System.out.println("От клиента: "+request);
-                                // out.writeUTF(request.toUpperCase()); // Отправляем содержимое request в поток out, но преобразуя в БОЛЬШИЕ буквы
+                                // System.out.println("От клиента: "+request);
+                                // out.writeUTF(request.toUpperCase()); // ! закомментировали ! Отправляем содержимое request в поток out, но преобразуя в БОЛЬШИЕ буквы
                                 for (Socket socket1:userSocket) { // Перебор Коллекции по принципу "пока там что-то есть" - кладем из userSocket в socket1, выполняем инструкции ниже, затем возвращаемся и повторяем процедуру
                                     DataOutputStream out1 = new DataOutputStream(socket1.getOutputStream()); // Создали новый экземпляр ИсходящийДатаПоток
-                                    out1.writeUTF(request); // ! Сюда надо дописать имя клиента !
+                                    out1.writeUTF(clientName+": "+request); // ! Сюда надо дописать имя клиента !
                                 }
                             }
                         } catch (IOException e) {
