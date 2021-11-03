@@ -28,10 +28,21 @@ public class Server {
                             while (true){
                                 String request = currentUser.getIn().readUTF(); //Ожидаем сообщение от клиента
                                 System.out.println(userName+": "+request);
-                                if(request.equals("/onlineUsers")){
+                                if(request.equals("/onlineUsers")) {
                                     String usersName = "";
-                                    for (User user: users) usersName += user.getUserName()+", ";
+                                    for (User user : users) usersName += user.getUserName() + ", ";
                                     currentUser.getOut().writeUTF(usersName);
+//                                Первая попытка сделать задание про персональные сообщения
+//                                }else if (request.equals("/m")) {
+//                                    System.out.println("Введите Имя кому отправить сообщение \n");
+//                                    String requestName = currentUser.getIn().readUTF(); //Ожидаем сообщение от клиента
+//                                    System.out.println("Введите сообщение для "+requestName+"\n");
+//                                    String requestMess = currentUser.getIn().readUTF(); //Ожидаем сообщение от клиента
+//                                    for (User user: users) {
+//                                        if (requestName.equals(user.getUserName())) {
+//                                            user.getOut().writeUTF(userName + ": " + requestMess);
+//                                        }else continue;
+//                                    }
                                 }else
                                     for (User user: users) {
                                         if(currentUser.getSocket().equals(user.getSocket())) continue;
